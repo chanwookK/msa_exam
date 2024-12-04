@@ -1,0 +1,50 @@
+server:
+  port: 19093
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19090/eureka/  # Eureka 서버 URL
+    register-with-eureka: true  # Eureka 서버에 등록
+    fetch-registry: true  # Eureka 서버로부터 레지스트리 정보 가져오기
+  instance:
+    hostname: localhost  # 클라이언트 호스트 이름
+    prefer-ip-address: true  # IP 주소 사용 선호
+    lease-renewal-interval-in-seconds: 30  # 리스 갱신 간격
+    lease-expiration-duration-in-seconds: 90  # 리스 만료 기간
+
+management:
+  zipkin:
+    tracing:
+      endpoint: "http://localhost:9411/api/v2/spans"
+  tracing:
+    sampling:
+      probability: 1.0
+
+spring:
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+  application:
+    name: product
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      username: default
+      password: sky2002369
+  datasource:
+    url: jdbc:mysql://localhost:3306/sparta_product
+    username: root
+    password: sky2002369
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create  # 개발 시에는 'update', 운영 시에는 'validate' 또는 'none' 권장
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect  # MySQL 8.x 기준, 다른 버전은 맞는 dialect 사용
+    show-sql: true  # SQL 쿼리 로그를 콘솔에 출력
+    format-sql: true
